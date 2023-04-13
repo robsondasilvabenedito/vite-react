@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.border-default {
+    @apply border-[1px] border-[#0D4D8C]
+}
+
+.border-b-default {
+    @apply border-b-[1px] border-[#0D4D8C]
+}
+
+.border-r-default {
+    @apply border-r-[1px] border-[#0D4D8C]
+}
+
+.border-x-default {
+    @apply border-x-[1px] border-[#0D4D8C]
+}
+
+.border-t-default {
+    @apply border-t-[1px] border-[#0D4D8C]
+}
