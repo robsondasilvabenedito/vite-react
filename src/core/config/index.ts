@@ -1,8 +1,5 @@
-import { loginDB, createUser, getCategorias, getProdutos } from "./database"
+import { DataBase } from "./Database"
 
 export {
-    loginDB,
-    createUser,
-    getCategorias,
-    getProdutos
+    DataBase
 }

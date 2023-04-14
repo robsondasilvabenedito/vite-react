@@ -15,15 +15,21 @@ interface HeaderAdminProps {
 }
 
 export const HeaderAdmin = (props: HeaderAdminProps) => {
-    const { clenAll } = useAppContext()
+    const { clenAll, logout } = useAppContext()
 
     const navigate: NavigateFunction = useNavigate()
 
     const cargo: string = props.cargo.toUpperCase()
     const user: string = props.user.toUpperCase()
 
-    const handleExit = () => {
+    const handleClean = () => {
         clenAll()
+
+        navigate("/")
+    }
+
+    const handleLogout = () => {
+        logout()
 
         navigate("/")
     }
@@ -54,8 +60,13 @@ export const HeaderAdmin = (props: HeaderAdminProps) => {
                     {user}
                 </div>
             </div>
-            <div onClick={handleExit} className="cursor-pointer hover:text-red-700">
-                SAIR
+            <div className="flex">
+                <div onClick={handleClean} className="cursor-pointer hover:text-red-700 mr-6">
+                    CLEAN
+                </div>
+                <div onClick={handleLogout} className="cursor-pointer hover:text-red-700">
+                    SAIR
+                </div>
             </div>
         </div>
         <nav className="border-b-default text-[20px]">

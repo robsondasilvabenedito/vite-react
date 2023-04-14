@@ -6,6 +6,12 @@
 export enum Actions{
     SaveUser = "SAVE_USER",
     SetLogged = "SET_LOGGED",
-    SetAll = "SET_ALL",
-    Clean = "CLEAN"
+    Clean = "CLEAN",
+    Logout = "LOGOUT",
+    Login = "LOGIN",
+    CreateUser = "CREATE_USER",
+    CreateProduto = "CREATE_PRODUTO",
+    DeleteProduto = "DELETE_PRODUTO",
+    CreateCategoria = "CREATE_CATEGORIA",
+    DeleteCategoria = "DELETE_CATEGORIA"
 }

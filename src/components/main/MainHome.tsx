@@ -1,10 +1,12 @@
 import { ReactNode, useEffect, useState } from "react"
-import { getCategorias, getProdutos } from "../../core/config"
 import { Produto } from "../../core/model"
+import { useAppContext } from "../../core/context"
 
 export const MainHome = () => {
-    const categorias = getCategorias()
-    const produtos = getProdutos()
+    const { context } = useAppContext()
+
+    const categorias = context.db.categorias
+    const produtos = context.db.produtos
 
     const [cat, setCat] = useState<string[]>([...categorias])
     const [reg, setReg] = useState<string>("")
@@ -37,7 +39,7 @@ export const MainHome = () => {
         const [search, setSearch] = useState("")
 
         useEffect(() => {
-            setReg(search)
+            setReg(search.toLowerCase())
         })
 
         return <>
@@ -48,21 +50,23 @@ export const MainHome = () => {
     // JSX.Element do filtro das categorias
     const createFilter = (categorias: string[]): ReactNode => {
         return categorias.map((value: string, index: number): JSX.Element => {
+            const uniqueKey = `${index}${value}`
+
             const [isChecked, setIsChecked] = useState(true)
 
             const addCat = (value: string) => {
                 setCat([...cat, value])
             }
-        
+
             const removeCat = (value: string) => {
                 let tempCat: string[] = []
-        
+
                 cat.forEach((cat: string) => {
                     if (cat != value) {
                         tempCat.push(cat)
                     }
                 })
-        
+
                 setCat([...tempCat])
             }
 
@@ -76,14 +80,14 @@ export const MainHome = () => {
                 setIsChecked(!isChecked)
             }
 
-            return <div className="flex items-center">
+            return <div key={uniqueKey} className="flex items-center">
                 <input className="w-[20px] h-[20px]" type="checkbox" value={value} defaultChecked={isChecked} onClick={() => { toggle() }} />
-                <label className="text-[30px] ml-2"> {`${value[0].toUpperCase()}${value.slice(1).toLowerCase()}`} </label>
+                <label className="text-[30px] ml-2"> {`${value}`} </label>
             </div>
         })
     }
 
-    const createProduto = (nome: string, valor: number, estoque: number, categoria: string, key: number): JSX.Element => {
+    const createProduto = (nome: string, valor: number, estoque: number, categoria: string, key: string): JSX.Element => {
         let preco = valor.toString()
 
         let decimal = preco.split(".")
@@ -109,7 +113,9 @@ export const MainHome = () => {
 
     const createProdutos = (produtos: Produto[]): ReactNode => {
         return produtos.map((value: Produto, index: number): JSX.Element => {
-            return createProduto(value.nome, value.valor, value.estoque, value.categoria, index)
+            const uniqueKey = `${index}${value}`
+
+            return createProduto(value.nome, value.valor, value.estoque, value.categoria, uniqueKey)
         })
     }
 

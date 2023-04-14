@@ -27,7 +27,9 @@ export const GraficoCat = (props: GraficoCatProps) => {
         let width: number = String(max).length * 8 + 20
 
         return keys.map((key: string) => {
-            return <div className="flex pb-1">
+            const uniqueKey = `${key}label`
+
+            return <div key={uniqueKey} className="flex pb-1">
                 <div style={{ width: `${width}px` }} className="flex items-center justify-center bg-blue-500 mr-2 p-1 border-default">
                     {cats.get(key)}
                 </div>
@@ -48,9 +50,11 @@ export const GraficoCat = (props: GraficoCatProps) => {
         })
 
         return keys.map((key: string) => {
+            const uniqueKey = `${key}graphB`
+
             let height: number = (cats.get(key)! * 90) / max
 
-            return <th>
+            return <th key={uniqueKey}>
                 <div className="h-full text-center flex flex-col justify-end items-center">
                     <div className=""> {cats.get(key)} </div>
                     <div style={{ height: `${height}%` }} className="w-[60px] md:w-[100px] px-1">
@@ -63,7 +67,9 @@ export const GraficoCat = (props: GraficoCatProps) => {
 
     const getGraphsH = () => {
         return keys.map((key: string) => {
-            return <td className="text-center bg-third">
+            const uniqueKey = `${key}graphH`
+
+            return <td key={uniqueKey} className="text-center bg-third">
                 {key}
             </td>
         })

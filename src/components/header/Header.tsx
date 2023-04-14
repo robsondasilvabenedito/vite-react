@@ -8,15 +8,15 @@ interface HeaderProps {
 
 
 export const Head = (props: HeaderProps) => {
-    const { clenAll } = useAppContext()
+    const { logout } = useAppContext()
 
     const navigate: NavigateFunction = useNavigate()
 
     const cargo = props.cargo
     const user = props.user
 
-    const handleExit = () => {
-        clenAll()
+    const handleLogout = () => {
+        logout()
 
         navigate("/")
     }
@@ -31,8 +31,10 @@ export const Head = (props: HeaderProps) => {
                     {user.toUpperCase()}
                 </div>
             </div>
-            <div onClick={handleExit} className="cursor-pointer hover:text-red-700">
-                SAIR
+            <div className="flex">
+                <div onClick={handleLogout} className="cursor-pointer hover:text-red-700">
+                    SAIR
+                </div>
             </div>
         </div>
     </header>

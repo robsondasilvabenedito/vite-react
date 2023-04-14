@@ -1,21 +1,42 @@
 import { ReactNode, useCallback, useReducer } from "react"
 import { AppContext, INIT_CONTEXT, InitContextType } from "./Context"
 import { userContextReducer } from "./reducer"
-import { Actions, User } from "../model"
+import { Actions, Produto, User } from "../model"
+import { contextValidator } from "./validator"
 
 interface AppContextProviderProps {
     children: ReactNode
 }
 
 export const AppContextProvider = (props: AppContextProviderProps) => {
-    const persistUser = localStorage.getItem("all")
+    const persistContext = localStorage.getItem("all")
 
-    console.log(persistUser)
+    let init
 
-    const init: InitContextType = persistUser ? JSON.parse(persistUser) as InitContextType : INIT_CONTEXT
+    // Check DB
+    let reset = false
+
+    if (reset) {
+        init = INIT_CONTEXT
+    } else {
+        if (persistContext) {
+            const context = JSON.parse(persistContext) as InitContextType
+
+            if (contextValidator(context)) {
+                init = context
+            } else {
+                init = INIT_CONTEXT
+            }
+        } else {
+            init = INIT_CONTEXT
+        }
+    }
+
+    localStorage.setItem("all", JSON.stringify(init))
 
     const [user, dispatch] = useReducer(userContextReducer, init)
 
+    // User
     const saveUser = useCallback((user: User) => {
         dispatch({
             key: Actions.SaveUser,
@@ -36,11 +57,68 @@ export const AppContextProvider = (props: AppContextProviderProps) => {
         })
     }, [dispatch])
 
+    const createUser = useCallback((user: User) => {
+        dispatch({
+            key: Actions.CreateUser,
+            value: user
+        })
+    }, [dispatch])
+
+    // Sessão
+    const userLogin = useCallback((nome: string, senha: string) => {
+        dispatch({
+            key: Actions.Login,
+            value: { nome: nome, senha: senha }
+        })
+    }, [dispatch])
+
+    const userLogout = useCallback(() => {
+        dispatch({
+            key: Actions.Logout
+        })
+    }, [dispatch])
+
+    // Produto
+    const createProduto = useCallback((produto: Produto) => {
+        dispatch({
+            key: Actions.CreateProduto,
+            value: produto
+        })
+    }, [dispatch])
+
+    const deleteProduto = useCallback(() => {
+        dispatch({
+            key: Actions.CreateProduto
+        })
+    }, [dispatch])
+
+    // Categoria
+    const createCategoria = useCallback((categoria: string) => {
+        dispatch({
+            key: Actions.CreateCategoria,
+            value: categoria
+        })
+    }, [dispatch])
+
+    const deleteCategoria = useCallback(() => {
+        dispatch({
+            key: Actions.CreateProduto,
+        })
+    }, [dispatch])
+
+    // Provider
     return <AppContext.Provider value={{
         context: user,
         saveUser: saveUser,
         setLogged: setLogged,
-        clenAll: cleanAll
+        clenAll: cleanAll,
+        createUser: createUser,
+        createProduto: createProduto,
+        deleteProduto: deleteProduto,
+        createCategoria: createCategoria,
+        deleteCategoria: deleteCategoria,
+        login: userLogin,
+        logout: userLogout
     }}>
         {props.children}
     </AppContext.Provider>

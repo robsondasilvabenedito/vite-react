@@ -1,10 +1,12 @@
 import React, { ReactNode, useState } from "react"
-import { InputSubmit, InputLabel } from "../input"
-import { loginDB } from "../../core/config"
+import { InputSubmit, InputLabel, InputErro } from "../input"
 import { useAppContext } from "../../core/context"
+import { DataBase } from "../../core/config"
 
 export const FormLogin = () => {
-    const { saveUser, setLogged } = useAppContext()
+    const { context, login } = useAppContext()
+
+    const DB: DataBase = context.db
 
     const initForm = {
         user: "",
@@ -29,23 +31,10 @@ export const FormLogin = () => {
     const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        let result = loginDB(form.user, form.password)
+        login(form.user, form.password)
 
-        if (result === null) {
-            setLogged(false)
-
+        if (context.user.login == "") {
             setError(true)
-        } else {
-            saveUser(result)
-            setLogged(true)
-        }
-    }
-
-    const getError = (): ReactNode => {
-        if (error) {
-            return <p className="text-red-600 animate-bounce"> SENHA OU USUARIO ERRADO </p>
-        } else {
-            return <></>
         }
     }
 
@@ -56,7 +45,7 @@ export const FormLogin = () => {
         <InputLabel label="Senha" placeholder="senha" type="password"
             var="password" value={form.password} onChange={handleForm} />
 
-        {getError()}
+        <InputErro show={error} text="Login ou Senha Inválido"/>
 
         <a> esqueci minha senha </a>
 

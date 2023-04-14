@@ -36,7 +36,7 @@ export const InputLabel = (props: InputLabelProps) => {
             return <>
                 <label> {label} </label> <br />
                 <input type={type} placeholder={placeholder} style={{ height: `${heigh}` }}
-                    className="w-full h-[40px] pl-[10px] mt-[5px] mb-[10px] border-default"
+                    className="w-full h-[40px] pl-[10px] mt-[5px] mb-[10px] border-default bg-blank"
                     onChange={(event) => { onChange(props.var, event) }} value={value} /> <br />
             </>
 
