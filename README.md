@@ -1,7 +1,7 @@
 # vite-react
 Atividade da disciplina de Programação Web
 
-## Atvidade
+## Atividade
 Criar um site simples utilizando vite + react + typescript, tendo que utilizar seus *hooks*
 
 ### useState()
